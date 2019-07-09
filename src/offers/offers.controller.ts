@@ -1,47 +1,35 @@
 import { Controller, Body, Post, Get, Param, Patch, Delete } from '@nestjs/common';
 import { OffersService } from './offers.service';
+import { Offer } from './offer.entity';
 
 @Controller('offers')
 export class OffersController {
   constructor(private readonly offersService: OffersService) {
   }
 
-  @Post()
-  addOffer(
-    @Body('title') title: string,
-    @Body('description') description: string,
-    @Body('price') price: number,
-  ) {
-    const generatedId = this.offersService.insertOffer(title, description, price);
-
-    return { id: generatedId };
-  }
-
   @Get()
-  getAllOffers() {
-    return this.offersService.getOffers();
+  getAllOffers(): Promise<Offer[]> {
+    return this.offersService.findAllOffers();
   }
 
   @Get(':id')
-  getOffer(@Param('id') id: string) {
-    return this.offersService.getSingleOffer(id);
+  getOffer(@Param('id') id): Promise<Offer[]> {
+    return this.offersService.findOffer(id);
+  }
+
+  @Post()
+  async addOffer(@Body() offerData: Offer): Promise<any> {
+    return this.offersService.createOffer(offerData);
   }
 
   @Patch(':id')
-  updateOffer(
-    @Param('id') id: string,
-    @Body('title') title: string,
-    @Body('description') description: string,
-    @Body('price') price: number,
-  ) {
-    this.offersService.updateOffer(id, title, description, price);
-    return null;
+  async updateOffer(@Param('id') id, @Body() offerData: Offer): Promise<any> {
+    offerData.id = Number(id);
+    return this.offersService.updateOffer(offerData);
   }
 
   @Delete(':id')
-  removeOffer(@Param('id') id: string) {
-    this.offersService.deleteOffer(id);
-    return null;
+  async deleteOffer(@Param('id') id): Promise<any> {
+    return this.offersService.deleteOffer(id);
   }
-
 }

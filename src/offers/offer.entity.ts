@@ -4,14 +4,19 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Offer {
 
   @PrimaryGeneratedColumn()
-  public id: string;
+  id: number;
 
   @Column()
-  public title: string;
+  title: string;
 
   @Column()
-  public description: string;
+  description: string;
 
-  @Column()
-  public price: number;
+  @Column(
+    'decimal',
+    {
+      precision: 9,
+      scale: 2,
+    })
+  price: number;
 }
