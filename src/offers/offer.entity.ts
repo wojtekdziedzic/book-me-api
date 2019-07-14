@@ -1,4 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Offer {
@@ -6,10 +10,14 @@ export class Offer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    nullable: false,
+  })
   title: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   description: string;
 
   @Column(
@@ -17,6 +25,16 @@ export class Offer {
     {
       precision: 9,
       scale: 2,
+      nullable: true,
     })
-  price: number;
+  priceShort: number;
+
+  @Column(
+    'decimal',
+    {
+      precision: 9,
+      scale: 2,
+      nullable: true,
+    })
+  priceLong: number;
 }
