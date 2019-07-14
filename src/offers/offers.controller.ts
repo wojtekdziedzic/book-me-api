@@ -7,8 +7,12 @@ export class OffersController {
   constructor(private readonly offersService: OffersService) {
   }
 
-  @Get()
+  @Get('all')
   getAllOffers(): Promise<Offer[]> {
+    return this.offersService.findAllOffers();
+  }
+  @Get('active')
+  getActiveOffers(): Promise<Offer[]> {
     return this.offersService.findActiveOffers();
   }
 
@@ -19,12 +23,14 @@ export class OffersController {
 
   @Post()
   async addOffer(@Body() offerData: Offer): Promise<any> {
+    offerData.dateCreated = new Date().getTime();
     return this.offersService.createOffer(offerData);
   }
 
   @Patch(':id')
   async updateOffer(@Param('id') id, @Body() offerData: Offer): Promise<any> {
     offerData.id = Number(id);
+    offerData.dateUpdated = new Date().getTime();
     return this.offersService.updateOffer(offerData);
   }
 

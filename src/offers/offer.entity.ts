@@ -21,6 +21,13 @@ export class Offer {
   description: string;
 
   @Column(
+    'text',
+    {
+      nullable: true,
+    })
+  content: string;
+
+  @Column(
     'decimal',
     {
       precision: 9,
@@ -42,4 +49,16 @@ export class Offer {
     default: false,
   })
   active: boolean;
+
+  @Column({
+    type: 'bigint',
+  })
+  dateCreated: number;
+
+  @Column({
+    type: 'bigint',
+    nullable: true,
+    default: null,
+  })
+  dateUpdated: number;
 }

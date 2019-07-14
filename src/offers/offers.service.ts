@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UpdateResult, DeleteResult } from 'typeorm';
 import { Offer } from './offer.entity';
 
 @Injectable()
@@ -13,9 +12,9 @@ export class OffersService {
   ) {
   }
 
-  // async findAllOffers(): Promise<Offer[]> {
-  //   return await this.offerRepository.find();
-  // }
+  async findAllOffers(): Promise<Offer[]> {
+    return await this.offerRepository.find();
+  }
 
   async findOffer(offerId): Promise<Offer[]> {
     return await this.offerRepository.find({
