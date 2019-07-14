@@ -37,4 +37,9 @@ export class Offer {
       nullable: true,
     })
   priceLong: number;
+
+  @Column({
+    default: false,
+  })
+  active: boolean;
 }
