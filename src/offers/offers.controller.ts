@@ -9,7 +9,7 @@ export class OffersController {
 
   @Get()
   getAllOffers(): Promise<Offer[]> {
-    return this.offersService.findAllOffers();
+    return this.offersService.findActiveOffers();
   }
 
   @Get(':id')

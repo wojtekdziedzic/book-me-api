@@ -13,14 +13,22 @@ export class OffersService {
   ) {
   }
 
-  async findAllOffers(): Promise<Offer[]> {
-    return await this.offerRepository.find();
-  }
+  // async findAllOffers(): Promise<Offer[]> {
+  //   return await this.offerRepository.find();
+  // }
 
   async findOffer(offerId): Promise<Offer[]> {
     return await this.offerRepository.find({
       where: {
         id: offerId,
+      },
+    });
+  }
+
+  async findActiveOffers(): Promise<Offer[]> {
+    return await this.offerRepository.find({
+      where: {
+        active: 1,
       },
     });
   }
