@@ -5,7 +5,8 @@ import { OffersModule } from './offers/offers.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [OffersModule,
+  imports: [
+    OffersModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -15,9 +16,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'book-me',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-    })],
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}

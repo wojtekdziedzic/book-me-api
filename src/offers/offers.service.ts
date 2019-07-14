@@ -5,12 +5,10 @@ import { Offer } from './offer.entity';
 
 @Injectable()
 export class OffersService {
-
   constructor(
     @InjectRepository(Offer)
     private offerRepository: Repository<Offer>,
-  ) {
-  }
+  ) {}
 
   async findAllOffers(): Promise<Offer[]> {
     return await this.offerRepository.find();
@@ -43,5 +41,4 @@ export class OffersService {
   async deleteOffer(id): Promise<DeleteResult> {
     return await this.offerRepository.delete(id);
   }
-
 }

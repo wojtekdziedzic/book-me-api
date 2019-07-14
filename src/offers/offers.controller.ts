@@ -1,11 +1,18 @@
-import { Controller, Body, Post, Get, Param, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Post,
+  Get,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { OffersService } from './offers.service';
 import { Offer } from './offer.entity';
 
 @Controller('offers')
 export class OffersController {
-  constructor(private readonly offersService: OffersService) {
-  }
+  constructor(private readonly offersService: OffersService) {}
 
   @Get('all')
   getAllOffers(): Promise<Offer[]> {

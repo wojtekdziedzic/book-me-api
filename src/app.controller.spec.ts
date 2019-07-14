@@ -16,7 +16,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "I\'m working :)"', () => {
-      expect(appController.index()).toBe('I\'m working :)');
+      expect(appController.index()).toBe("I'm working :)");
     });
   });
 });

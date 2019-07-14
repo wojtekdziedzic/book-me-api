@@ -1,12 +1,7 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Offer {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,29 +15,23 @@ export class Offer {
   })
   description: string;
 
-  @Column(
-    'text',
-    {
-      nullable: true,
-    })
+  @Column('text', {
+    nullable: true,
+  })
   content: string;
 
-  @Column(
-    'decimal',
-    {
-      precision: 9,
-      scale: 2,
-      nullable: true,
-    })
+  @Column('decimal', {
+    precision: 9,
+    scale: 2,
+    nullable: true,
+  })
   priceShort: number;
 
-  @Column(
-    'decimal',
-    {
-      precision: 9,
-      scale: 2,
-      nullable: true,
-    })
+  @Column('decimal', {
+    precision: 9,
+    scale: 2,
+    nullable: true,
+  })
   priceLong: number;
 
   @Column({
