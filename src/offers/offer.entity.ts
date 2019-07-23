@@ -2,52 +2,63 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Offer {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  public id: string;
 
-  @Column({
-    nullable: false,
-  })
+  @Column(
+    {
+      nullable: false,
+    })
   title: string;
 
-  @Column({
-    nullable: true,
-  })
+  @Column(
+    {
+      nullable: true,
+    })
   description: string;
 
-  @Column('text', {
-    nullable: true,
-  })
+  @Column(
+    'text',
+    {
+      nullable: true,
+    })
   content: string;
 
-  @Column('decimal', {
-    precision: 9,
-    scale: 2,
-    nullable: true,
-  })
+  @Column(
+    'decimal',
+    {
+      precision: 9,
+      scale: 2,
+      nullable: true,
+    })
   priceShort: number;
 
-  @Column('decimal', {
-    precision: 9,
-    scale: 2,
-    nullable: true,
-  })
+  @Column(
+    'decimal',
+    {
+      precision: 9,
+      scale: 2,
+      nullable: true,
+    })
   priceLong: number;
 
-  @Column({
-    default: false,
-  })
+  @Column(
+    {
+      default: false,
+    })
   active: boolean;
 
-  @Column({
-    type: 'bigint',
-  })
+  @Column(
+    {
+      type: 'bigint',
+    })
   dateCreated: number;
 
-  @Column({
-    type: 'bigint',
-    nullable: true,
-    default: null,
-  })
+  @Column(
+    {
+      type: 'bigint',
+      nullable: true,
+      default: null,
+    })
   dateUpdated: number;
 }
