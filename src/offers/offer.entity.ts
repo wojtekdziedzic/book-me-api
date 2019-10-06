@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../users/user.entity';
+import { UsersService } from '../users/users.service';
 
 @Entity()
 export class Offer {
@@ -73,4 +74,14 @@ export class Offer {
     user => user.offers,
   )
   user: User;
+
+  @BeforeInsert()
+  updateDateCreated() {
+    this.dateCreated = new Date().getTime();
+  }
+
+  @BeforeUpdate()
+  updateDateUpdated() {
+    this.dateUpdated = new Date().getTime();
+  }
 }

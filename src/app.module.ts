@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import * as path from 'path';
 import config from './config/config';
+import { UsersService } from './users/users.service';
 
 const {
   DATABASE_HOST,

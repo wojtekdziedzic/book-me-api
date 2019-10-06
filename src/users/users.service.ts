@@ -3,10 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
-  readonly users: User[];
+  // readonly users: User[];
+  private saltRounds = 10;
 
   constructor(
     @InjectRepository(User)
@@ -14,10 +16,18 @@ export class UsersService extends TypeOrmCrudService<User> {
     super(usersRepository);
   }
 
-  async getOneUser(name: string): Promise<User | undefined> {
+  async getUser(name: string): Promise<User | undefined> {
     return this.usersRepository.findOne({
-      where: {name},
+      where: { name },
     });
+  }
+
+  public async getHash(password: string | undefined): Promise<string> {
+    return bcrypt.hash(password, this.saltRounds);
+  }
+
+  async compareHash(password: string | undefined, hash: string | undefined): Promise<boolean> {
+    return bcrypt.compare(password, hash);
   }
 
   // async getUser(Id: string): Promise<User[]> {
