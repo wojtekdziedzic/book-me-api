@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Offer } from '../offers/offer.entity';
 
 @Entity()
 export class User {
@@ -16,4 +17,7 @@ export class User {
       nullable: false,
     })
   password: string;
+
+  @OneToMany(type => Offer, offer => offer.user)
+  offers: Offer[];
 }

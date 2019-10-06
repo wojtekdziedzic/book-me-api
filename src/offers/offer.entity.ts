@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../users/user.entity';
+import { Type } from 'class-transformer';
 
 @Entity()
 export class Offer {
@@ -61,4 +63,12 @@ export class Offer {
       default: null,
     })
   dateUpdated: number;
+
+  @Column(
+    'varchar',
+    {
+    nullable: false,
+  })
+  @ManyToOne(type => User, user => user.offers)
+  user: User;
 }
