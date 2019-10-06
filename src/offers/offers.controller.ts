@@ -1,8 +1,8 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { Crud } from '@nestjsx/crud';
 import { OffersService } from './offers.service';
 import { Offer } from './offer.entity';
-import { ParamOptionType } from '@nestjsx/crud-request';
+import { AuthGuard } from '@nestjs/passport';
 
 @Crud({
   params: {
@@ -16,6 +16,7 @@ import { ParamOptionType } from '@nestjsx/crud-request';
     type: Offer,
   },
 })
+@UseGuards(AuthGuard('jwt'))
 @Controller('offers')
 export class OffersController {
   constructor(public service: OffersService) {
