@@ -17,7 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
   },
 })
 @UseGuards(AuthGuard('jwt'))
-@Controller('offers')
+@Controller('api/offers')
 export class OffersController {
   constructor(public service: OffersService) {
   }

@@ -11,21 +11,29 @@ export class AuthService {
   ) {
   }
 
-  async compareHash(password: string | undefined, hash: string | undefined): Promise<boolean> {
+  public async compareHash(password: string | undefined, hash: string | undefined): Promise<boolean> {
     return bcrypt.compare(password, hash);
+  }
+
+  public async getHash(password: string | undefined): Promise<string> {
+    return bcrypt.hash(password, 10);
   }
 
   async validateUser(name: string, pass: string): Promise<any> {
     const user = await this.usersService.getUser(name);
     if (await this.compareHash(pass, user.password)) {
-      const { password, saltRounds, ...result } = user;
+      const { password, ...result } = user;
       return result;
     }
     return null;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = {
+      username: user.name,
+      sub: user.id,
+      dateCreated: user.dateCreated,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };

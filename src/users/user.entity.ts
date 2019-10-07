@@ -1,18 +1,12 @@
-import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { AfterUpdate, BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Offer } from '../offers/offer.entity';
-import * as bcrypt from 'bcrypt';
+import { AuthService} from '../auth/auth.service';
 
 @Entity()
 export class User {
 
-  saltRounds = 10;
+  constructor(private readonly authService: AuthService){
 
-  async getHash(password: string | undefined): Promise<string> {
-    return bcrypt.hash(password, this.saltRounds);
-  }
-
-  async compareHash(password: string | undefined, hash: string | undefined): Promise<boolean> {
-    return bcrypt.compare(password, hash);
   }
 
   @PrimaryGeneratedColumn('uuid')
@@ -57,12 +51,25 @@ export class User {
   )
   offers: Offer[];
 
-  @BeforeInsert()
-  async updateDateCreated() {
-    this.dateCreated = new Date().getTime();
-    await this.getHash(this.password).then(
+  @AfterUpdate()
+  async afterUpdate() {
+    console.log(this);
+  }
+
+  @BeforeUpdate()
+  async beforeUpdate() {
+    this.dateUpdated = new Date().getTime();
+    await this.authService.getHash(this.password).then(
       hash => this.password = hash,
     );
-
   }
+
+  @BeforeInsert()
+  async beforeInsert() {
+    this.dateCreated = new Date().getTime();
+    await this.authService.getHash(this.password).then(
+      hash => this.password = hash,
+    );
+  }
+
 }
