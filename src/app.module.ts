@@ -9,27 +9,21 @@ import { UsersModule } from './users/users.module';
 import * as path from 'path';
 import config from './config/config';
 
-const {
-  DATABASE_HOST,
-  DATABASE_PORT,
-  DATABASE_USERNAME,
-  DATABASE_PASSWORD,
-  DATABASE_NAME,
-  DATABASE_SYNCHRONIZE,
-} = config.DB;
+import { Offer } from './offers/offer.entity';
+import { User } from './users/user.entity';
 
 @Module({
   imports: [
     ConfigModule.load(path.resolve(__dirname, 'config', '**/!(*.d).{ts,js}')),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: DATABASE_HOST,
-      port: DATABASE_PORT,
-      username: DATABASE_USERNAME,
-      password: DATABASE_PASSWORD,
-      database: DATABASE_NAME,
-      entities: [config.ENTITIES_FOLDER],
-      synchronize: DATABASE_SYNCHRONIZE,
+      host: config.DB.DATABASE_HOST,
+      port: config.DB.DATABASE_PORT,
+      username: config.DB.DATABASE_USERNAME,
+      password: config.DB.DATABASE_PASSWORD,
+      database: config.DB.DATABASE_NAME,
+      entities: [Offer, User],
+      synchronize: config.DB.DATABASE_SYNCHRONIZE,
     }),
     OffersModule,
     AuthModule,
@@ -38,5 +32,4 @@ const {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}

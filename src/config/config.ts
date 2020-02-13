@@ -1,15 +1,14 @@
 import DB from './database';
 import * as path from 'path';
 
-const PARENT_FOLDER = path.resolve(__dirname, '..');
-const {
-  PROCESS_PORT,
-  NODE_ENV,
-} = process.env;
+// const {
+//   PROCESS_PORT,
+//   NODE_ENV,
+// } = process.env;
 
 export default {
-  PROCESS_PORT: PROCESS_PORT || 3030,
-  ENTITIES_FOLDER: PARENT_FOLDER + '/**/*.entity{.ts,.js}',
-  DB: DB[NODE_ENV],
-  NODE_ENV: NODE_ENV || 'development',
+  PROCESS_PORT: process.env.PROCESS_PORT || 3030,
+  ENTITIES_FOLDER_PATH: '/src/**/*.entity{.ts,.js}',
+  NODE_ENV: process.env.NODE_ENV || 'development',
+  DB: DB[process.env.NODE_ENV] || DB.development,
 };

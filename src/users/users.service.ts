@@ -12,7 +12,8 @@ export class UsersService extends TypeOrmCrudService<User> {
 
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>) {
+    private usersRepository: Repository<User>,
+  ) {
     super(usersRepository);
   }
 
@@ -26,7 +27,10 @@ export class UsersService extends TypeOrmCrudService<User> {
     return bcrypt.hash(password, this.saltRounds);
   }
 
-  async compareHash(password: string | undefined, hash: string | undefined): Promise<boolean> {
+  async compareHash(
+    password: string | undefined,
+    hash: string | undefined,
+  ): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
 
@@ -37,9 +41,9 @@ export class UsersService extends TypeOrmCrudService<User> {
   //   });
   // }
   //
-  // async updateUser(user: User) {
-  //   await this.usersRepository.save(user);
-  // }
+  public async updateUser(user: User) {
+    await this.usersRepository.save(user);
+  }
   //
   // async deleteUser(user: User) {
   //   await this.usersRepository.delete(user);

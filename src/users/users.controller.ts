@@ -16,9 +16,8 @@ import { AuthGuard } from '@nestjs/passport';
     type: User,
   },
 })
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UsersController {
-  constructor(public service: UsersService) {
-  }
+  constructor(public service: UsersService) {}
 }

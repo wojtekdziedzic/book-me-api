@@ -8,10 +8,12 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-  ) {
-  }
+  ) {}
 
-  public async compareHash(password: string | undefined, hash: string | undefined): Promise<boolean> {
+  public async compareHash(
+    password: string | undefined,
+    hash: string | undefined,
+  ): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
 
@@ -29,13 +31,13 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = {
-      username: user.name,
-      sub: user.id,
-      dateCreated: user.dateCreated,
-    };
+    const { password, ...payload } = user;
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: user.status
+        ? this.jwtService.sign(payload.user, {
+            expiresIn: '365 days',
+          })
+        : null,
     };
   }
 }

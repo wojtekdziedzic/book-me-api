@@ -1,75 +1,93 @@
-import { AfterUpdate, BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  getRepository,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Offer } from '../offers/offer.entity';
-import { AuthService} from '../auth/auth.service';
+import { UsersService } from './users.service';
+import { hashSync } from 'bcrypt';
+import { log } from 'util';
+import { createHmac } from 'crypto';
 
 @Entity()
 export class User {
+  constructor(private authService: UsersService) {}
 
-  constructor(private readonly authService: AuthService){
-
+  generateSalt(newPass: string, oldPass?: string) {
+    console.log('sdfsdg');
+    if (newPass && (!oldPass || oldPass !== newPass || 1)) {
+      // this.salt = genSaltSync(8);
+      // tslint:disable-next-line:no-console
+      console.log('ssss');
+      return (this.password = hashSync(newPass, 10));
+    }
   }
 
   @PrimaryGeneratedColumn('uuid')
-  public id: string;
+  public readonly id: string;
 
-  @Column(
-    {
-      nullable: false,
-      default: '',
-    })
+  @Column({
+    nullable: false,
+    default: '',
+  })
   name: string;
 
-  @Column(
-    {
-      nullable: false,
-    })
+  @Column({
+    nullable: false,
+    default: '',
+  })
+  surname: string;
+
+  @Column({
+    nullable: true,
+    default: null,
+  })
+  age: number;
+
+  @Column({
+    nullable: true,
+    default: null,
+  })
+  role: string;
+
+  @Column({
+    nullable: false,
+    default: '',
+  })
   password: string;
 
-  @Column(
-    {
-      default: false,
-    })
-  active: boolean;
-
-  @Column(
-    {
-      type: 'bigint',
-    })
-  dateCreated: number;
-
-  @Column(
-    {
-      type: 'bigint',
-      nullable: true,
-      default: null,
-    })
-  dateUpdated: number;
-
-  @OneToMany(
-    () => Offer,
-    offer => offer.user,
-  )
-  offers: Offer[];
-
-  @AfterUpdate()
-  async afterUpdate() {
-    console.log(this);
-  }
-
-  @BeforeUpdate()
-  async beforeUpdate() {
-    this.dateUpdated = new Date().getTime();
-    await this.authService.getHash(this.password).then(
-      hash => this.password = hash,
-    );
-  }
+  // @Column({
+  //   nullable: false,
+  //   default: '',
+  // })
+  // password: string;
 
   @BeforeInsert()
-  async beforeInsert() {
-    this.dateCreated = new Date().getTime();
-    await this.authService.getHash(this.password).then(
-      hash => this.password = hash,
-    );
+  @BeforeUpdate()
+  hashPassword() {
+    if (this.password) {
+      // this.password = createHmac('sha256', this.password).digest('hex');
+      this.password = this.generateSalt(this.password);
+    }
   }
 
+  @Column({
+    default: true,
+  })
+  status: boolean;
+
+  @UpdateDateColumn()
+  updated: Date;
+
+  @CreateDateColumn()
+  created: Date;
+
+  @OneToMany(() => Offer, offer => offer.user)
+  offers: Offer[];
 }
